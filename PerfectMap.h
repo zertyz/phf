@@ -35,6 +35,7 @@ namespace PHF {
 
 			valuesArrayLength = _phf.m;
 			valuesArray       = new _ValueType[valuesArrayLength];
+			clear();
 		}
 
 		~PerfectMap() {
@@ -42,10 +43,22 @@ namespace PHF {
 			PHF::destroy(&_phf);
 		}
 
-		const _ValueType& operator [] (_KeyType key) const {
+		// map methods
+		//////////////
+
+		const _ValueType& operator [] (_KeyType&& key) const {
 			phf_hash_t index = hash(&_phf, key);
 	        return valuesArray[index];
 	    }
+
+		/** fill with zeroes all values */
+		void clear() {
+			memset(valuesArray, valuesArrayLength, sizeof(valuesArray[0]));
+		}
+
+		void erase(_KeyType&& key) {
+			memset(this[key], 1, sizeof(valuesArray[0]));
+		}
 
 	};
 }

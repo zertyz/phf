@@ -530,8 +530,10 @@ PHF_PUBLIC int PHF::init(struct phf *phf, const key_t k[], const size_t n, const
 
 	if (!(B_k = static_cast<phf_key<key_t> *>(calloc(n1, sizeof *B_k))))
 		goto syerr;
+	memset(B_k, 0, n1 * sizeof *B_k);
 	if (!(B_z = static_cast<size_t *>(calloc(r, sizeof *B_z))))
 		goto syerr;
+	memset(B_z, 0, r * sizeof *B_z);
 
 	for (size_t i = 0; i < n; i++) {
 		phf_hash_t g = phf_g_mod_r<nodiv>(k[i], seed, r);
@@ -547,6 +549,7 @@ PHF_PUBLIC int PHF::init(struct phf *phf, const key_t k[], const size_t n, const
 	T_n = PHF_HOWMANY(m, PHF_BITS(*T));
 	if (!(T = static_cast<phf_bits_t *>(calloc(T_n * 2, sizeof *T))))
 		goto syerr;
+	memset(T, 0, T_n * 2 * sizeof *T);
 	T_b = &T[T_n]; /* share single allocation */
 
 	/*
@@ -561,6 +564,7 @@ PHF_PUBLIC int PHF::init(struct phf *phf, const key_t k[], const size_t n, const
 
 	if (!(g = static_cast<uint32_t *>(calloc(r, sizeof *g))))
 		goto syerr;
+	memset(g, 0, r * sizeof *g);
 
 	B_p = B_k;
 	B_pe = &B_k[n];
